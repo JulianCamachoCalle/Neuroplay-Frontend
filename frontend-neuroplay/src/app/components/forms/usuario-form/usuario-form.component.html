@@ -1,0 +1,148 @@
+<div class="min-h-screen bg-cover bg-center p-0" style="background-image: url('');">
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-center items-center min-h-screen">
+            <div class="w-full max-w-md bg-white bg-opacity-90 rounded-lg shadow-lg p-8 backdrop-blur-sm">
+                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
+                    {{ usuario ? 'Editar' : 'Nuevo' }} Usuario
+                </h2>  
+                @if(form) {
+                <div class="w-full">
+                    <form [formGroup]="form" (ngSubmit)="save()" class="space-y-4">
+                        <div>
+                            <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   formControlName="nombre">
+                            @if (form.get('nombre')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">El Nombre es obligatorio</p>
+                            }
+                            @if (form.get('nombre')?.hasError('pattern')) {
+                                <p class="mt-1 text-sm text-red-600">El Nombre solo debe contener letras!</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="apellido" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+                            <input type="text" name="apellido" id="apellido" placeholder="Apellido" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   formControlName="apellido">
+                            @if (form.get('apellido')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">El apellido es obligatorio</p>
+                            }
+                            @if (form.get('apellido')?.hasError('pattern')) {
+                                <p class="mt-1 text-sm text-red-600">El Apellido solo debe contener letras!</p>
+                            }    
+                        </div>
+
+                        <div>
+                            <label for="rol" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+                            <select name="rol" id="rol" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    formControlName="rol">
+                                <option value="" disabled selected>Selecciona un rol</option>
+                                <option value="ADMIN">Administrador</option>
+                                <option value="PACIENTE">Paciente</option>
+                                <option value="TERAPEUTA">Terapeuta</option>
+                            </select>
+                            @if (form.get('rol')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">El Rol es obligatorio</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="text" name="username" id="username" placeholder="Email" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   formControlName="username">
+                            @if (form.get('username')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">El Email es obligatorio</p>
+                            }
+                            @if (form.get('username')?.hasError('email')) {
+                                <p class="mt-1 text-sm text-red-600">Ingrese un Email válido!</p>
+                            }
+                            @if (form.get('username')?.hasError('emailExists')) {
+                                <p class="mt-1 text-sm text-red-600">Este Email ya está registrado!</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                            <input type="password" name="password" id="password" placeholder="Contraseña" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   formControlName="password">
+                            @if (form.get('password')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">La contraseña es obligatoria</p>
+                            }
+                            @if (form.get('password')?.hasError('minlength')) {
+                                <p class="mt-1 text-sm text-red-600">La Contraseña debe tener al menos 8 caracteres!</p>
+                            }
+                            @if (form.get('password')?.hasError('pattern')) {
+                                <p class="mt-1 text-sm text-red-600">La Contraseña debe tener al menos 1 letra mayúscula y
+                                    1 carácter especial!</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="fechaNacimiento" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
+                            <input type="date" name="fechaNacimiento" id="fechaNacimiento" formControlName="fechaNacimiento" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            
+                            @if (form.get('fechaNacimiento')?.hasError('required') && form.get('fechaNacimiento')?.touched) {
+                            <p class="mt-1 text-sm text-red-600">La fecha de nacimiento es obligatoria</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="genero" class="block text-sm font-medium text-gray-700 mb-1">Género</label>
+                            <select name="genero" id="genero" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    formControlName="genero">
+                                <option value="" disabled selected>Selecciona un género</option>
+                                <option value="MASCULINO">Masculino</option>
+                                <option value="FEMENINO">Femenino</option>
+                                <option value="OTRO">Otro</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                            <input type="text" name="telefono" id="telefono" placeholder="Teléfono" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   formControlName="telefono">
+                            @if (form.get('telefono')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">El teléfono es obligatoria</p>
+                            }
+                            @if (form.get('telefono')?.hasError('pattern')) {
+                                <p class="mt-1 text-sm text-red-600">El Teléfono debe contener solo números y empezar con 9!</p>
+                            }
+                            @if (form.get('telefono')?.hasError('phoneExists')) {
+                                <p class="mt-1 text-sm text-red-600">Este Teléfono ya está registrado!</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="avatar" class="block text-sm font-medium text-gray-700 mb-1">Avatar</label>
+                            <input type="text" name="avatar" id="avatar" placeholder="Avatar" 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   formControlName="avatar">
+                            <!-- @if (form.get('avatar')?.hasError('required')) {
+                            <p class="mt-1 text-sm text-red-600">El avatar es obligatorio</p>
+                            } -->
+                        </div>
+
+                        <div class="flex justify-end space-x-2 pt-4">
+                            <button type="button" routerLink="/crud/usuario"
+                                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Cancelar
+                            </button>
+                            <button class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {{ usuario ? 'Actualizar' : 'Crear' }} Usuario
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
