@@ -32,7 +32,6 @@ export class UsuarioFormComponent implements OnInit {
           this.usuarioService.getById(parseInt(id)).subscribe(usuario => {
               this.usuario = usuario;
               this.form = this.fb.group({
-                rol: [usuario.rol, [Validators.required]],
                 nombre: [usuario.nombre, [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/)]],
                 apellido: [usuario.apellido, [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/)]],
                 username: [usuario.username, [Validators.required, Validators.email]],
@@ -42,7 +41,7 @@ export class UsuarioFormComponent implements OnInit {
                 telefono: [usuario.telefono, [Validators.required, Validators.pattern(/^9\d{8}$/)]],
                 avatar: [usuario.avatar],
                 estado: [usuario.estado],
-                fechaRegistro: [usuario.fechaRegistro]
+                rol: [usuario.rol, [Validators.required]],
           });
           })
     } else {
@@ -55,7 +54,7 @@ export class UsuarioFormComponent implements OnInit {
             fechaNacimiento: [''],
             genero: [''],
             telefono: ['', [Validators.required, Validators.pattern(/^9\d{8}$/)], [telefonoValidators(this.usuarioService)]],
-            avatar: [''],
+            avatar: ['default.png'],
             estado: ['ACTIVO']
           });
         }
