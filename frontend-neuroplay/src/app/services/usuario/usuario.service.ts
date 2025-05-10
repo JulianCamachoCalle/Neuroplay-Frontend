@@ -37,6 +37,11 @@ export class UsuarioService {
       catchError(this.handleError));
   }
 
+  registerUser(userData: any): Observable<any> {
+    return this.http.post(environment.urlHost + "auth/register", userData).pipe(
+      catchError(this.handleError));
+  }
+
   // Eliminar un usuario
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.urlApiUsuario}/${id}`).pipe(
