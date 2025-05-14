@@ -23,7 +23,7 @@ export class PacienteFormComponent implements OnInit {
   isEdit = false;
   usuarios: any[] = [];
   terapeutas: any[] = [];
-  tiposAcv = ['Isquémico', 'Hemorrágico', 'TIA'];
+  tiposAcv = ['ISQUÉMICO', 'HEMORRÁGICO', 'TIA'];
 
   constructor(
     private fb: FormBuilder,
