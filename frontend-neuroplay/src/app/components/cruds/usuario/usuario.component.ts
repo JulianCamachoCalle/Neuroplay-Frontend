@@ -5,16 +5,16 @@ import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { DashboardComponent } from '../../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, DashboardComponent],
   templateUrl: './usuario.component.html',
-  styleUrl: './usuario.component.css'
+  styleUrl: './usuario.component.css',
 })
-export class UsuarioComponent implements OnInit{
-
+export class UsuarioComponent implements OnInit {
   private usuarioService = inject(UsuarioService);
 
   usuarios: any[] = [];
@@ -41,7 +41,7 @@ export class UsuarioComponent implements OnInit{
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         this.usuarioService.delete(usuario.id).subscribe({
@@ -61,7 +61,7 @@ export class UsuarioComponent implements OnInit{
               'Hubo un problema al eliminar al usuario. Inténtalo nuevamente.',
               'error'
             );
-          }
+          },
         });
       }
     });

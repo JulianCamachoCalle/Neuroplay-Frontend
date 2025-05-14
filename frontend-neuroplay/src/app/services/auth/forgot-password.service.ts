@@ -10,17 +10,17 @@ export class ForgotPasswordService {
   constructor(private http: HttpClient) { }
 
   verificarEmail(email: string) {
-    return this.http.post(`${environment.urlForgotPassword}/verificarEmail/${email}`, {}, { responseType: 'text' });
+    return this.http.post(`${environment.urlApiForgotPassword}/verificarEmail/${email}`, {}, { responseType: 'text' });
   }
 
   verificarOTP(otp: number, email: string) {
     return this.http.post<string>(
-      `${environment.urlForgotPassword}/verificarOTP/${otp}/${email}`,
+      `${environment.urlApiForgotPassword}/verificarOTP/${otp}/${email}`,
       {}
     );
   }
 
   cambiarContrasena(email: string, passwords: { password: string; repeatPassword: string }) {
-    return this.http.post<string>(`${environment.urlForgotPassword}/changePassword/${email}`, passwords);
+    return this.http.post<string>(`${environment.urlApiForgotPassword}/changePassword/${email}`, passwords);
   }
 }

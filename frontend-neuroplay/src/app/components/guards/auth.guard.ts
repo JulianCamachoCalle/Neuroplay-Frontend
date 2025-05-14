@@ -5,11 +5,14 @@ import Swal from 'sweetalert2';
 import { LoginService } from '../../services/auth/login.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-
-  constructor(private loginService: LoginService, private router: Router, private jwtHelper: JwtHelperService) { }
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private jwtHelper: JwtHelperService
+  ) {}
 
   canActivate(): boolean {
     const token = sessionStorage.getItem('token');
@@ -32,7 +35,7 @@ export class AuthGuard implements CanActivate {
       title: 'Acceso Denegado',
       text: 'No tienes permiso para acceder a esta página.',
       icon: 'warning',
-      confirmButtonText: 'Aceptar'
+      confirmButtonText: 'Aceptar',
     });
 
     // Redirige al inicio
@@ -42,6 +45,6 @@ export class AuthGuard implements CanActivate {
 
   private hasRequiredRole(rol: string): boolean {
     // Permitir acceso solo si el rol es ADMIN
-    return rol === "ADMIN";
+    return rol === 'ADMIN';
   }
 }
