@@ -4,5 +4,11 @@ export const environment = {
     apiUrl: 'http://localhost:8080/api/v1',
     urlApiUsuario: 'http://localhost:8080/api/v1/usuario',
     urlApiEmail: 'http://localhost:8080/admin/enviarEmail',
-    urlForgotPassword: 'http://localhost:8080/forgotPassword',
+    urlApiForgotPassword: 'http://localhost:8080/forgotPassword',
+    urlApiEjercicios: 'http://localhost:8080/api/v1/ejercicios',
+    urlApiTerapias: 'http://localhost:8080/api/v1/terapias',
+    urlApiTerapeutas: 'http://localhost:8080/api/v1/terapeutas',
+    urlApiSesiones: 'http://localhost:8080/api/v1/sesiones',
+    urlApiProgreso: 'http://localhost:8080/api/v1/progreso',
+    urlApiPacientes: 'http://localhost:8080/api/v1/pacientes',
 };

@@ -1,10 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, catchError, map, tap, throwError } from 'rxjs';
 import { LoginRequest } from './loginRequest';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../environments/enviroment.development';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,17 @@ export class LoginService {
   currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
   currentUserRole: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router) {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      this.initializeUser(token);
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+    if (this.isBrowser()) {
+      const token = sessionStorage.getItem("token");
+      if (token) {
+        this.initializeUser(token);
+      }
     }
+  }
+
+  private isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
   }
 
   private initializeUser(token: string): void {

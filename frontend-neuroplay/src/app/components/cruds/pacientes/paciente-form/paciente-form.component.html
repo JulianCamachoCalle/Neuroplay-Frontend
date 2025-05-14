@@ -1,0 +1,139 @@
+<div
+  class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg"
+>
+  <h2
+    class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-blue-500"
+  >
+    {{ isEdit ? "Editar" : "Nuevo" }} Paciente
+  </h2>
+
+  <form [formGroup]="pacienteForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Columna Izquierda -->
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Usuario</label
+          >
+          <select
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
+            formControlName="usuarioId"
+            [disabled]="isEdit"
+          >
+            <option value="" disabled selected class="text-gray-400">
+              Seleccionar usuario
+            </option>
+            <option
+              *ngFor="let usuario of usuarios"
+              [value]="usuario.id"
+              class="text-gray-800"
+            >
+              {{ usuario.nombre }} {{ usuario.apellido }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Terapeuta</label
+          >
+          <select
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
+            formControlName="terapeutaId"
+          >
+            <option value="" disabled selected class="text-gray-400">
+              Seleccionar terapeuta
+            </option>
+            <option
+              *ngFor="let terapeuta of terapeutas"
+              [value]="terapeuta.id"
+              class="text-gray-800"
+            >
+              {{ terapeuta.nombre }} {{ terapeuta.apellido }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Columna Derecha -->
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Fecha Acv</label
+          >
+          <input
+            type="date"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            formControlName="fechaAcv"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Tipo Acv</label
+          >
+          <select
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
+            formControlName="tipoAcv"
+          >
+            <option value="" disabled selected class="text-gray-400">
+              Seleccionar tipoAcv
+            </option>
+            <option
+              *ngFor="let tipoAcv of tiposAcv"
+              [value]="tipoAcv"
+              class="text-gray-800"
+            >
+              {{ tipoAcv }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Areas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Antecedentes médicos</label
+        >
+        <textarea
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          formControlName="antecedentes"
+          rows="3"
+          placeholder="Detalle los antecedentes médicos..."
+        ></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1"
+          >Medicación actual</label
+        >
+        <textarea
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          formControlName="medicacionActual"
+          rows="3"
+          placeholder="Lista de medicamentos actuales..."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-between pt-4 border-t border-gray-200">
+      <button
+        type="button"
+        [routerLink]="['/pacientes']"
+        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        [disabled]="pacienteForm.invalid"
+        class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ isEdit ? "Actualizar" : "Crear" }}
+      </button>
+    </div>
+  </form>
+</div>
