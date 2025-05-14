@@ -1,71 +1,486 @@
-<body class="bg-gray-50">
-    <div class="max-w-sm mx-auto my-8 p-6 bg-white rounded-xl shadow-sm">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-6">Progreso de Rehabilitación</h1>
-        
-        <!-- Progress Stats -->
-        <div class="flex space-x-4 mb-6">
-            <div class="flex-1 p-4 border border-gray-100 rounded-lg">
+<app-navbar></app-navbar>
+<div
+  class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8"
+>
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">Panel de Rehabilitación</h1>
+      <p class="text-gray-600 mt-2">
+        Bienvenido de vuelta, aquí está tu progreso
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Left Column -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- Progress Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Total Progress -->
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div>
                 <p class="text-sm text-gray-500">Progreso Total</p>
                 <p class="text-2xl font-bold text-indigo-600 mt-1">75%</p>
+              </div>
+              <div class="w-16 h-16">
+                <canvas id="totalProgressChart"></canvas>
+              </div>
             </div>
-            <div class="flex-1 p-4 border border-gray-100 rounded-lg">
-                <p class="text-sm text-gray-500">Ejercicios</p>
-                <p class="text-2xl font-bold text-indigo-600 mt-1">24/32</p>
+            <div class="mt-3 h-2 bg-gray-100 rounded-full">
+              <div
+                class="h-2 bg-indigo-600 rounded-full"
+                style="width: 75%"
+              ></div>
             </div>
-        </div>
-        
-        <!-- Streak -->
-        <div class="p-4 bg-indigo-50 rounded-lg mb-6">
-            <p class="text-sm text-indigo-500 font-medium">Días Consecutivos</p>
-            <p class="text-xl font-bold text-indigo-700 mt-1">15</p>
-        </div>
-        
-        <div class="h-px bg-gray-100 my-6"></div>
-        
-        <!-- Recent Exercises -->
-        <div class="mb-6">
-            <h2 class="text-lg font-medium text-gray-800 mb-3">Últimos Ejercicios</h2>
-            <div class="space-y-2">
-                <div class="p-3 hover:bg-gray-50 rounded-lg transition">
-                    <p class="font-medium">Ejercicios de Mano</p>
-                    <p class="text-sm text-gray-400">Completado hace 2 horas</p>
-                </div>
-                <div class="p-3 hover:bg-gray-50 rounded-lg transition">
-                    <p class="font-medium">Ejercicios de Marcha</p>
-                    <p class="text-sm text-gray-400">Completado ayer</p>
-                </div>
+          </div>
+
+          <!-- Exercises Completed -->
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div>
+              <p class="text-sm text-gray-500">Ejercicios Completados</p>
+              <p class="text-2xl font-bold text-indigo-600 mt-1">24/32</p>
             </div>
-        </div>
-        
-        <!-- Upcoming Sessions -->
-        <div class="mb-6">
-            <h2 class="text-lg font-medium text-gray-800 mb-3">Próximas Sesiones</h2>
-            <div class="space-y-2">
-                <div class="p-3 hover:bg-gray-50 rounded-lg transition">
-                    <p class="font-medium">Sesión con Dr. García</p>
-                    <p class="text-sm text-gray-400">Mañana - 10:00 AM</p>
-                </div>
-                <div class="p-3 hover:bg-gray-50 rounded-lg transition">
-                    <p class="font-medium">Evaluación Mensual</p>
-                    <p class="text-sm text-gray-400">Viernes - 11:30 AM</p>
-                </div>
+            <div class="mt-3 flex items-center text-sm text-gray-500">
+              <span class="text-green-500">+3 esta semana</span>
+              <span class="mx-1">•</span>
+              <span>75% completado</span>
             </div>
+          </div>
+
+          <!-- Streak -->
+          <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Racha Actual</p>
+                <p class="text-2xl font-bold text-indigo-600 mt-1">15 días</p>
+              </div>
+              <div class="text-yellow-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-8 w-8"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class="mt-3 text-sm text-gray-500">¡No rompas la racha!</div>
+          </div>
         </div>
-        
-        <div class="h-px bg-gray-100 my-6"></div>
-        
+
+        <!-- Progress Chart -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">
+              Progreso Semanal
+            </h2>
+            <select class="text-sm border border-gray-200 rounded-md px-3 py-1">
+              <option>Esta semana</option>
+              <option>Este mes</option>
+              <option>Este año</option>
+            </select>
+          </div>
+          <div class="h-64">
+            <canvas id="weeklyProgressChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Exercises Grid -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Ejercicios Recientes
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              class="p-4 border border-gray-100 rounded-lg hover:shadow-md transition"
+            >
+              <div class="flex items-start">
+                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-indigo-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-800">Ejercicios de Mano</h3>
+                  <p class="text-sm text-gray-500 mt-1">
+                    Completado hace 2 horas
+                  </p>
+                  <div class="mt-2 flex items-center">
+                    <span
+                      class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                      >Completado</span
+                    >
+                    <span class="ml-2 text-xs text-gray-500"
+                      >15 repeticiones</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-100 rounded-lg hover:shadow-md transition"
+            >
+              <div class="flex items-start">
+                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-indigo-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-800">
+                    Ejercicios de Marcha
+                  </h3>
+                  <p class="text-sm text-gray-500 mt-1">Completado ayer</p>
+                  <div class="mt-2 flex items-center">
+                    <span
+                      class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                      >Completado</span
+                    >
+                    <span class="ml-2 text-xs text-gray-500">10 minutos</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-100 rounded-lg hover:shadow-md transition"
+            >
+              <div class="flex items-start">
+                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-indigo-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-800">Estiramientos</h3>
+                  <p class="text-sm text-gray-500 mt-1">Hace 2 días</p>
+                  <div class="mt-2 flex items-center">
+                    <span
+                      class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                      >Completado</span
+                    >
+                    <span class="ml-2 text-xs text-gray-500">3 series</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-100 rounded-lg hover:shadow-md transition"
+            >
+              <div class="flex items-start">
+                <div class="bg-indigo-100 p-3 rounded-lg mr-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-indigo-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-medium text-gray-800">Terapia Ocupacional</h3>
+                  <p class="text-sm text-gray-500 mt-1">Hace 3 días</p>
+                  <div class="mt-2 flex items-center">
+                    <span
+                      class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"
+                      >Completado</span
+                    >
+                    <span class="ml-2 text-xs text-gray-500">20 minutos</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="space-y-6">
         <!-- Today's Session -->
-        <div class="mb-8">
-            <h2 class="text-lg font-medium text-gray-800 mb-3">Sesión de Hoy</h2>
-            <div class="p-4 bg-indigo-50 rounded-lg">
-                <p class="font-medium">Ejercicios de movilidad y coordinación</p>
-                <p class="text-sm text-indigo-500 mt-1">30 minutos aproximadamente</p>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Sesión de Hoy
+          </h2>
+          <div class="p-4 bg-indigo-50 rounded-lg">
+            <div class="flex items-start">
+              <div class="bg-indigo-100 p-2 rounded-lg mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-indigo-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800">
+                  Ejercicios de movilidad y coordinación
+                </h3>
+                <p class="text-sm text-indigo-500 mt-1">
+                  30 minutos aproximadamente
+                </p>
+                <div class="mt-3">
+                  <button
+                    class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition duration-150"
+                  >
+                    Iniciar Terapia
+                  </button>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        
-        <!-- CTA Button -->
-        <button class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition duration-150">
-            Iniciar Terapia
-        </button>
+
+        <!-- Upcoming Sessions -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Próximas Sesiones
+          </h2>
+          <div class="space-y-3">
+            <div
+              class="flex items-start p-3 hover:bg-gray-50 rounded-lg transition"
+            >
+              <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-blue-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800">Sesión con Dr. García</h3>
+                <p class="text-sm text-gray-500 mt-1">Mañana - 10:00 AM</p>
+                <p class="text-xs text-blue-600 mt-1">
+                  Consulta de seguimiento
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex items-start p-3 hover:bg-gray-50 rounded-lg transition"
+            >
+              <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-purple-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800">Evaluación Mensual</h3>
+                <p class="text-sm text-gray-500 mt-1">Viernes - 11:30 AM</p>
+                <p class="text-xs text-purple-600 mt-1">
+                  Evaluación de progreso
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="flex items-start p-3 hover:bg-gray-50 rounded-lg transition"
+            >
+              <div class="bg-green-100 p-2 rounded-lg mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-green-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-medium text-gray-800">Terapia Grupal</h3>
+                <p class="text-sm text-gray-500 mt-1">Lunes - 3:00 PM</p>
+                <p class="text-xs text-green-600 mt-1">Sesión grupal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exercise Distribution -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Distribución de Ejercicios
+          </h2>
+          <div class="h-64">
+            <canvas id="exerciseDistributionChart"></canvas>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </div>
+</div>
+
+<!-- Chart.js Implementation -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Total Progress Doughnut Chart
+    const totalProgressCtx = document
+      .getElementById("totalProgressChart")
+      .getContext("2d");
+    new Chart(totalProgressCtx, {
+      type: "doughnut",
+      data: {
+        labels: ["Completado", "Restante"],
+        datasets: [
+          {
+            data: [75, 25],
+            backgroundColor: ["#4f46e5", "#e0e7ff"],
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        cutout: "70%",
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+
+    // Weekly Progress Line Chart
+    const weeklyProgressCtx = document
+      .getElementById("weeklyProgressChart")
+      .getContext("2d");
+    new Chart(weeklyProgressCtx, {
+      type: "line",
+      data: {
+        labels: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+        datasets: [
+          {
+            label: "Minutos de terapia",
+            data: [20, 25, 30, 22, 28, 15, 35],
+            backgroundColor: "rgba(79, 70, 229, 0.1)",
+            borderColor: "#4f46e5",
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+            },
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
+
+    // Exercise Distribution Pie Chart
+    const exerciseDistCtx = document
+      .getElementById("exerciseDistributionChart")
+      .getContext("2d");
+    new Chart(exerciseDistCtx, {
+      type: "pie",
+      data: {
+        labels: ["Movilidad", "Coordinación", "Fuerza", "Equilibrio"],
+        datasets: [
+          {
+            data: [35, 25, 20, 20],
+            backgroundColor: ["#4f46e5", "#6366f1", "#818cf8", "#a5b4fc"],
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    });
+  });
+</script>

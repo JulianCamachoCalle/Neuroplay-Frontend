@@ -1,148 +1,539 @@
-<div class="min-h-screen bg-cover bg-center p-0" style="background-image: url('');">
-    <div class="container mx-auto px-4 py-8">
-        <div class="flex justify-center items-center min-h-screen">
-            <div class="w-full max-w-md bg-white bg-opacity-90 rounded-lg shadow-lg p-8 backdrop-blur-sm">
-                <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
-                    {{ usuario ? 'Editar' : 'Nuevo' }} Usuario
-                </h2>  
-                @if(form) {
-                <div class="w-full">
-                    <form [formGroup]="form" (ngSubmit)="save()" class="space-y-4">
-                        <div>
-                            <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" placeholder="Nombre" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                   formControlName="nombre">
-                            @if (form.get('nombre')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">El Nombre es obligatorio</p>
-                            }
-                            @if (form.get('nombre')?.hasError('pattern')) {
-                                <p class="mt-1 text-sm text-red-600">El Nombre solo debe contener letras!</p>
-                            }
-                        </div>
-
-                        <div>
-                            <label for="apellido" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-                            <input type="text" name="apellido" id="apellido" placeholder="Apellido" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                   formControlName="apellido">
-                            @if (form.get('apellido')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">El apellido es obligatorio</p>
-                            }
-                            @if (form.get('apellido')?.hasError('pattern')) {
-                                <p class="mt-1 text-sm text-red-600">El Apellido solo debe contener letras!</p>
-                            }    
-                        </div>
-
-                        <div>
-                            <label for="rol" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
-                            <select name="rol" id="rol" 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    formControlName="rol">
-                                <option value="" disabled selected>Selecciona un rol</option>
-                                <option value="ADMIN">Administrador</option>
-                                <option value="PACIENTE">Paciente</option>
-                                <option value="TERAPEUTA">Terapeuta</option>
-                            </select>
-                            @if (form.get('rol')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">El Rol es obligatorio</p>
-                            }
-                        </div>
-
-                        <div>
-                            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                            <input type="text" name="username" id="username" placeholder="Email" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                   formControlName="username">
-                            @if (form.get('username')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">El Email es obligatorio</p>
-                            }
-                            @if (form.get('username')?.hasError('email')) {
-                                <p class="mt-1 text-sm text-red-600">Ingrese un Email válido!</p>
-                            }
-                            @if (form.get('username')?.hasError('emailExists')) {
-                                <p class="mt-1 text-sm text-red-600">Este Email ya está registrado!</p>
-                            }
-                        </div>
-
-                        <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-                            <input type="password" name="password" id="password" placeholder="Contraseña" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                   formControlName="password">
-                            @if (form.get('password')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">La contraseña es obligatoria</p>
-                            }
-                            @if (form.get('password')?.hasError('minlength')) {
-                                <p class="mt-1 text-sm text-red-600">La Contraseña debe tener al menos 8 caracteres!</p>
-                            }
-                            @if (form.get('password')?.hasError('pattern')) {
-                                <p class="mt-1 text-sm text-red-600">La Contraseña debe tener al menos 1 letra mayúscula y
-                                    1 carácter especial!</p>
-                            }
-                        </div>
-
-                        <div>
-                            <label for="fechaNacimiento" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
-                            <input type="date" name="fechaNacimiento" id="fechaNacimiento" formControlName="fechaNacimiento" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                            
-                            @if (form.get('fechaNacimiento')?.hasError('required') && form.get('fechaNacimiento')?.touched) {
-                            <p class="mt-1 text-sm text-red-600">La fecha de nacimiento es obligatoria</p>
-                            }
-                        </div>
-
-                        <div>
-                            <label for="genero" class="block text-sm font-medium text-gray-700 mb-1">Género</label>
-                            <select name="genero" id="genero" 
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    formControlName="genero">
-                                <option value="" disabled selected>Selecciona un género</option>
-                                <option value="MASCULINO">Masculino</option>
-                                <option value="FEMENINO">Femenino</option>
-                                <option value="OTRO">Otro</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-                            <input type="text" name="telefono" id="telefono" placeholder="Teléfono" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                   formControlName="telefono">
-                            @if (form.get('telefono')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">El teléfono es obligatoria</p>
-                            }
-                            @if (form.get('telefono')?.hasError('pattern')) {
-                                <p class="mt-1 text-sm text-red-600">El Teléfono debe contener solo números y empezar con 9!</p>
-                            }
-                            @if (form.get('telefono')?.hasError('phoneExists')) {
-                                <p class="mt-1 text-sm text-red-600">Este Teléfono ya está registrado!</p>
-                            }
-                        </div>
-
-                        <!-- <div>
-                            <label for="avatar" class="block text-sm font-medium text-gray-700 mb-1">Avatar</label>
-                            <input type="text" name="avatar" id="avatar" placeholder="Avatar" 
-                                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                   formControlName="avatar">
-                            @if (form.get('avatar')?.hasError('required')) {
-                            <p class="mt-1 text-sm text-red-600">El avatar es obligatorio</p>
-                            }
-                        </div> -->
-
-                        <div class="flex justify-end space-x-2 pt-4">
-                            <button type="button" routerLink="/crud/usuario"
-                                    class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Cancelar
-                            </button>
-                            <button class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                {{ usuario ? 'Actualizar' : 'Crear' }} Usuario
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                }
-            </div>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-0">
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-center items-center min-h-screen">
+      <div
+        class="w-full max-w-md bg-white/90 rounded-xl shadow-2xl p-8 backdrop-blur-sm border border-white/20"
+      >
+        <!-- Header -->
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold text-gray-800">
+            {{ usuario ? "Editar" : "Crear" }} Usuario
+          </h2>
+          <p class="mt-2 text-sm text-gray-600">
+            {{
+              usuario
+                ? "Actualiza los datos del usuario"
+                : "Completa el formulario para registrar un nuevo usuario"
+            }}
+          </p>
         </div>
+
+        @if(form) {
+        <div class="w-full">
+          <form [formGroup]="form" (ngSubmit)="save()" class="space-y-5">
+            <!-- Nombre y Apellido -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="nombre"
+                  class="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  Nombre <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="nombre"
+                  id="nombre"
+                  placeholder="Ej: Juan"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  formControlName="nombre"
+                />
+                @if (form.get('nombre')?.hasError('required')) {
+                <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  El nombre es obligatorio
+                </p>
+                } @if (form.get('nombre')?.hasError('pattern')) {
+                <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Solo letras permitidas
+                </p>
+                }
+              </div>
+
+              <div>
+                <label
+                  for="apellido"
+                  class="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  Apellido <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="apellido"
+                  id="apellido"
+                  placeholder="Ej: Pérez"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                  formControlName="apellido"
+                />
+                @if (form.get('apellido')?.hasError('required')) {
+                <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  El apellido es obligatorio
+                </p>
+                } @if (form.get('apellido')?.hasError('pattern')) {
+                <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Solo letras permitidas
+                </p>
+                }
+              </div>
+            </div>
+
+            <!-- Rol y Email -->
+            <div>
+              <label
+                for="rol"
+                class="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                Rol <span class="text-red-500">*</span>
+              </label>
+              <select
+                name="rol"
+                id="rol"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdjEwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGV2cm9uLWRvd24iPjxwYXRoIGQ9Im02IDkgNiA2IDYtNiIvPjwvc3ZnPg==')] bg-no-repeat bg-[center_right_1rem] bg-[length:1.25rem]"
+                formControlName="rol"
+              >
+                <option value="" disabled selected class="text-gray-400">
+                  Selecciona un rol
+                </option>
+                <option value="ADMIN" class="text-gray-800">
+                  Administrador
+                </option>
+                <option value="PACIENTE" class="text-gray-800">Paciente</option>
+                <option value="TERAPEUTA" class="text-gray-800">
+                  Terapeuta
+                </option>
+              </select>
+              @if (form.get('rol')?.hasError('required')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Debes seleccionar un rol
+              </p>
+              }
+            </div>
+
+            <div>
+              <label
+                for="username"
+                class="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                Email <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="Ej: usuario@example.com"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pl-10"
+                  formControlName="username"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              @if (form.get('username')?.hasError('required')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                El email es obligatorio
+              </p>
+              } @if (form.get('username')?.hasError('email')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Ingresa un email válido
+              </p>
+              } @if (form.get('username')?.hasError('emailExists')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Este email ya está registrado
+              </p>
+              }
+            </div>
+
+            <!-- Contraseña -->
+            <div>
+              <label
+                for="password"
+                class="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                Contraseña <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="••••••••"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pl-10"
+                  formControlName="password"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              @if (form.get('password')?.hasError('required')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                La contraseña es obligatoria
+              </p>
+              } @if (form.get('password')?.hasError('minlength')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Mínimo 8 caracteres
+              </p>
+              } @if (form.get('password')?.hasError('pattern')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Requiere mayúscula y carácter especial
+              </p>
+              }
+            </div>
+
+            <!-- Fecha Nacimiento y Género -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="fechaNacimiento"
+                  class="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  Fecha Nacimiento <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                  <input
+                    type="date"
+                    name="fechaNacimiento"
+                    id="fechaNacimiento"
+                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pl-10"
+                    formControlName="fechaNacimiento"
+                  />
+                  <div
+                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5 text-gray-400"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                @if (form.get('fechaNacimiento')?.hasError('required') &&
+                form.get('fechaNacimiento')?.touched) {
+                <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Fecha obligatoria
+                </p>
+                }
+              </div>
+
+              <div>
+                <label
+                  for="genero"
+                  class="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  Género
+                </label>
+                <select
+                  name="genero"
+                  id="genero"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiAjdjEwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jaGV2cm9uLWRvd24iPjxwYXRoIGQ9Im02IDkgNiA2IDYtNiIvPjwvc3ZnPg==')] bg-no-repeat bg-[center_right_1rem] bg-[length:1.25rem]"
+                  formControlName="genero"
+                >
+                  <option value="" disabled selected class="text-gray-400">
+                    Selecciona género
+                  </option>
+                  <option value="MASCULINO" class="text-gray-800">
+                    Masculino
+                  </option>
+                  <option value="FEMENINO" class="text-gray-800">
+                    Femenino
+                  </option>
+                  <option value="OTRO" class="text-gray-800">Otro</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Teléfono -->
+            <div>
+              <label
+                for="telefono"
+                class="block text-sm font-medium text-gray-700 mb-1.5"
+              >
+                Teléfono <span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <input
+                  type="text"
+                  name="telefono"
+                  id="telefono"
+                  placeholder="Ej: 987654321"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all pl-10"
+                  formControlName="telefono"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-gray-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              @if (form.get('telefono')?.hasError('required')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Teléfono obligatorio
+              </p>
+              } @if (form.get('telefono')?.hasError('pattern')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Solo números, empezando con 9
+              </p>
+              } @if (form.get('telefono')?.hasError('phoneExists')) {
+              <p class="mt-1.5 text-sm text-red-600 flex items-center gap-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                Teléfono ya registrado
+              </p>
+              }
+            </div>
+
+            <!-- Botones -->
+            <div
+              class="flex justify-between pt-4 border-t border-gray-200 mt-6"
+            >
+              <button
+                type="button"
+                routerLink="/usuarios"
+                class="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                [disabled]="form.invalid"
+                class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {{ usuario ? "Actualizar" : "Crear" }} Usuario
+              </button>
+            </div>
+          </form>
+        </div>
+        }
+      </div>
     </div>
+  </div>
 </div>

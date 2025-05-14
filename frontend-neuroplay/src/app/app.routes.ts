@@ -6,17 +6,44 @@ import { SendEmailComponent } from './components/send-email/send-email.component
 import { AuthGuard } from './components/guards/auth.guard';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { PacienteComponent } from './components/pages/paciente/paciente.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ProfileGuard } from './components/guards/profile-guard.guard';
+import { PacienteListComponent } from './components/cruds/pacientes/paciente-list/paciente-list.component';
+import { PacienteFormComponent } from './components/cruds/pacientes/paciente-form/paciente-form.component';
+import { PacienteDetailComponent } from './components/cruds/pacientes/paciente-detail/paciente-detail.component';
+import { TerapiaListComponent } from './components/cruds/terapia/terapia-list/terapia-list.component';
+import { TerapiaFormComponent } from './components/cruds/terapia/terapia-form/terapia-form.component';
+import { TerapiaDetailComponent } from './components/cruds/terapia/terapia-detail/terapia-detail.component';
+import { TerapeutaListComponent } from './components/cruds/terapeutas/terapeuta-list/terapeuta-list.component';
+import { TerapeutaFormComponent } from './components/cruds/terapeutas/terapeuta-form/terapeuta-form.component';
+import { TerapeutaDetailComponent } from './components/cruds/terapeutas/terapeuta-detail/terapeuta-detail.component';
 
 export const routes: Routes = [
-    { path: 'crud/usuario', component: UsuarioComponent },
-    { path: 'new-usuario', component: UsuarioFormComponent },
-    { path: ':id/edit', component: UsuarioFormComponent },
-    { path: 'login', component: LoginRegisterComponent },
-    { path: 'admin/email', component: SendEmailComponent },
-    // { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-    { path: 'forgot-password', component: ForgotPasswordComponent },
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-
-    // pages
-    { path: 'paciente', component:PacienteComponent }
+  { path: 'usuarios', component: UsuarioComponent },
+  { path: 'new-usuario', component: UsuarioFormComponent },
+  { path: ':id/edit', component: UsuarioFormComponent },
+  { path: 'login', component: LoginRegisterComponent },
+  { path: '', component: LoginRegisterComponent },
+  { path: 'admin/email', component: SendEmailComponent },
+  // { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  // pages
+  { path: 'paciente', component: PacienteComponent },
+  {
+    path: 'perfil/:id',
+    component: UserProfileComponent,
+    canActivate: [ProfileGuard],
+  },
+  { path: 'pacientes', component: PacienteListComponent },
+  { path: 'pacientes/nueva', component: PacienteFormComponent },
+  { path: 'pacientes/:id', component: PacienteDetailComponent },
+  { path: 'pacientes/:id/editar', component: PacienteFormComponent },
+  { path: 'terapias', component: TerapiaListComponent },
+  { path: 'terapias/nueva', component: TerapiaFormComponent },
+  { path: 'terapias/:id', component: TerapiaDetailComponent },
+  { path: 'terapias/:id/editar', component: TerapiaFormComponent },
+  { path: 'terapeutas', component: TerapeutaListComponent },
+  { path: 'terapeutas/nueva', component: TerapeutaFormComponent },
+  { path: 'terapeutas/:id', component: TerapeutaDetailComponent },
+  { path: 'terapeutas/:id/editar', component: TerapeutaFormComponent },
 ];
