@@ -53,14 +53,6 @@ export class UsuarioFormComponent implements OnInit {
             ],
           ],
           username: [usuario.username, [Validators.required, Validators.email]],
-          password: [
-            usuario.password,
-            [
-              Validators.required,
-              Validators.minLength(8),
-              Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*.]).{8,}$/),
-            ],
-          ],
           fechaNacimiento: [usuario.fechaNacimiento, [Validators.required]],
           genero: [usuario.genero],
           telefono: [
