@@ -1,1 +1,131 @@
-<p>prgreso-form works!</p>
+<div
+  class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg"
+>
+  <h2
+    class="text-2xl font-bold text-gray-800 mb-6 pb-2 border-b-2 border-blue-500"
+  >
+    {{ isEdit ? "Editar" : "Nuevo" }} Registro de Progreso
+  </h2>
+
+  <form [formGroup]="progresoForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Columna Izquierda -->
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Paciente</label
+          >
+          <select
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            formControlName="pacienteId"
+            [disabled]="isEdit"
+          >
+            <option value="" disabled selected>Seleccione un paciente</option>
+            @for (paciente of pacientes; track paciente.id) {
+            <option [value]="paciente.id">
+              {{ paciente.usuario?.nombre }} {{ paciente.usuario?.apellido }}
+            </option>
+            }
+          </select>
+          @if (progresoForm.get('pacienteId')?.hasError('required')) {
+          <p class="mt-1 text-sm text-red-600">Seleccione un paciente</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Fecha</label
+          >
+          <input
+            type="date"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            formControlName="fecha"
+          />
+          @if (progresoForm.get('fecha')?.hasError('required')) {
+          <p class="mt-1 text-sm text-red-600">La fecha es requerida</p>
+          }
+        </div>
+      </div>
+
+      <!-- Columna Derecha -->
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Fuerza (%)</label
+          >
+          <input
+            type="number"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            formControlName="fuerza"
+            min="0"
+            max="100"
+          />
+          @if (progresoForm.get('fuerza')?.invalid) {
+          <p class="mt-1 text-sm text-red-600">Valor entre 0 y 100 requerido</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Movilidad (%)</label
+          >
+          <input
+            type="number"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            formControlName="movilidad"
+            min="0"
+            max="100"
+          />
+          @if (progresoForm.get('movilidad')?.invalid) {
+          <p class="mt-1 text-sm text-red-600">Valor entre 0 y 100 requerido</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Detalle (%)</label
+          >
+          <input
+            type="number"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            formControlName="detalle"
+            min="0"
+            max="100"
+          />
+          @if (progresoForm.get('detalle')?.invalid) {
+          <p class="mt-1 text-sm text-red-600">Valor entre 0 y 100 requerido</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1"
+        >Notas/Observaciones</label
+      >
+      <textarea
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+        formControlName="notas"
+        rows="3"
+        placeholder="Registre cualquier observación relevante..."
+      ></textarea>
+    </div>
+
+    <div class="flex justify-between pt-4 border-t border-gray-200">
+      <button
+        type="button"
+        [routerLink]="['/progresos']"
+        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
+      >
+        Cancelar
+      </button>
+      <button
+        type="submit"
+        [disabled]="progresoForm.invalid"
+        class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {{ isEdit ? "Actualizar" : "Guardar" }}
+      </button>
+    </div>
+  </form>
+</div>
