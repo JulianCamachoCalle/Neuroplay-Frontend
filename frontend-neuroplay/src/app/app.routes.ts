@@ -63,8 +63,8 @@ export const routes: Routes = [
   { path: 'progresos/nueva', component: ProgresoFormComponent },
   { path: 'progresos/:id', component: ProgresoDetailComponent },
   { path: 'progresos/:id/editar', component: ProgresoFormComponent },
-  { path: 'sesion', component: SesionListComponent },
-  { path: 'sesion/nueva', component: SesionFormComponent },
-  { path: 'sesion/:id', component: SesionDetailComponent },
-  { path: 'sesion/:id/editar', component: SesionFormComponent },
+  { path: 'sesiones', component: SesionListComponent },
+  { path: 'sesiones/nueva', component: SesionFormComponent },
+  { path: 'sesiones/:id', component: SesionDetailComponent },
+  { path: 'sesiones/:id/editar', component: SesionFormComponent },
 ];
