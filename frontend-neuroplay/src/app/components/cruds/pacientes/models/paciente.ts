@@ -2,6 +2,7 @@ export interface Paciente {
   id: number;
   usuarioId: number;
   terapeutaId: number;
+  terapeutaNombre: string;
   fechaAcv: Date;
   tipoAcv: string;
   antecedentes?: string;
