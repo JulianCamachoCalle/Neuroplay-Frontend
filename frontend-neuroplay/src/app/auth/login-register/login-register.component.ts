@@ -1,6 +1,17 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { afterNextRender, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  afterNextRender,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { LoginService } from '../../services/auth/login.service';
@@ -10,65 +21,91 @@ import { telefonoValidators } from '../../validators/telefono.validators';
 import { LoginRequest } from '../../services/auth/loginRequest';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
-
 @Component({
   selector: 'app-login-register',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login-register.component.html',
-  styleUrl: './login-register.component.css'
+  styleUrl: './login-register.component.css',
 })
 export class LoginRegisterComponent implements OnInit {
-
-  errorMessage: string = "";
-  loginError: string = "";
+  errorMessage: string = '';
+  loginError: string = '';
 
   loginForm!: FormGroup;
   registerForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private loginService: LoginService, 
-    private userService: UsuarioService, 
+    private formBuilder: FormBuilder,
+    private loginService: LoginService,
+    private userService: UsuarioService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object) {
-      afterNextRender(() => {
-        this.setupEventListeners();
-      });
-    }
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    afterNextRender(() => {
+      this.setupEventListeners();
+    });
+  }
 
-    ngOnInit(): void {
-      this.initializeForms();
-      this.checkTokenAndRedirect();
-    }
+  ngOnInit(): void {
+    this.initializeForms();
+    this.checkTokenAndRedirect();
+  }
 
-    private initializeForms(): void {
-
+  private initializeForms(): void {
     this.loginForm = this.formBuilder.group({
       usernamelogin: ['', [Validators.required, Validators.email]],
-      passwordlogin: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*.]).{8,}$/)]]
+      passwordlogin: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*.]).{8,}$/),
+        ],
+      ],
     });
 
     this.registerForm = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/)]],
-      apellido: ['', [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/)]],
-      username: ['', [Validators.required, Validators.email], [emailValidator(this.userService)]],
+      nombre: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/)],
+      ],
+      apellido: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/)],
+      ],
+      username: [
+        '',
+        [Validators.required, Validators.email],
+        [emailValidator(this.userService)],
+      ],
       fechaNacimiento: ['', Validators.required],
       genero: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern(/^9\d{8}$/)], [telefonoValidators(this.userService)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*.]).{8,}$/)]],
+      telefono: [
+        '',
+        [Validators.required, Validators.pattern(/^9\d{8}$/)],
+        [telefonoValidators(this.userService)],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(/^(?=.*[A-Z])(?=.*[!@#$&*.]).{8,}$/),
+        ],
+      ],
     });
-    }
+  }
 
-    private checkTokenAndRedirect(): void {
+  private checkTokenAndRedirect(): void {
     if (isPlatformBrowser(this.platformId)) {
       const jwtHelper = new JwtHelperService();
-      const token = sessionStorage.getItem("token");
-      
+      const token = sessionStorage.getItem('token');
+
       if (token && !jwtHelper.isTokenExpired(token)) {
         const decodedToken = jwtHelper.decodeToken(token);
         const userRole = decodedToken.rol;
-        
+
         if (userRole === 'ADMIN') {
           this.router.navigate(['/admin']);
         } else if (userRole === 'TERAPEUTA') {
@@ -79,7 +116,6 @@ export class LoginRegisterComponent implements OnInit {
       }
     }
   }
-
 
   private setupEventListeners(): void {
     const registerButton = document.getElementById('register');
@@ -101,20 +137,38 @@ export class LoginRegisterComponent implements OnInit {
     }
   }
 
-   // Getters para los controles del formulario
-   get usernamelogin() { return this.loginForm.get('usernamelogin'); }
-   get passwordlogin() { return this.loginForm.get('passwordlogin'); }
-   get nombre() { return this.registerForm.get('nombre'); }
-   get apellido() { return this.registerForm.get('apellido'); }
-   get username() { return this.registerForm.get('username'); }
-   get telefono() { return this.registerForm.get('telefono'); }
-   get genero() { return this.registerForm.get('genero'); }
-   get fechaNacimiento() { return this.registerForm.get('fechaNacimiento'); }
-   get password() { return this.registerForm.get('password'); }
+  // Getters para los controles del formulario
+  get usernamelogin() {
+    return this.loginForm.get('usernamelogin');
+  }
+  get passwordlogin() {
+    return this.loginForm.get('passwordlogin');
+  }
+  get nombre() {
+    return this.registerForm.get('nombre');
+  }
+  get apellido() {
+    return this.registerForm.get('apellido');
+  }
+  get username() {
+    return this.registerForm.get('username');
+  }
+  get telefono() {
+    return this.registerForm.get('telefono');
+  }
+  get genero() {
+    return this.registerForm.get('genero');
+  }
+  get fechaNacimiento() {
+    return this.registerForm.get('fechaNacimiento');
+  }
+  get password() {
+    return this.registerForm.get('password');
+  }
 
-   register(): void {
+  register(): void {
     if (this.registerForm.invalid) {
-      this.errorMessage = "Por favor complete todos los campos.";
+      this.errorMessage = 'Por favor complete todos los campos.';
       return;
     }
 
@@ -124,8 +178,8 @@ export class LoginRegisterComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: '¡Registro exitoso!',
-          text: response.message,  // Muestra el mensaje de la respuesta
-          confirmButtonText: 'Aceptar'
+          text: response.message, // Muestra el mensaje de la respuesta
+          confirmButtonText: 'Aceptar',
         }).then(() => {
           // Redirige al login y recarga la página
           this.router.navigate(['/login']).then(() => {
@@ -135,20 +189,21 @@ export class LoginRegisterComponent implements OnInit {
       },
       error: (errorData) => {
         console.log(errorData);
-        this.loginError = errorData.error.message || 'Error al registrar el usuario';
+        this.loginError =
+          errorData.error.message || 'Error al registrar el usuario';
         Swal.fire({
           icon: 'error',
           title: '¡Error!',
           text: this.loginError,
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
         });
-      }
+      },
     });
   }
 
   login() {
     if (this.loginForm.valid) {
-      this.loginError = "";
+      this.loginError = '';
 
       // Llamamos al loginService y verificamos las credenciales
       this.loginService.login(this.loginForm.value as LoginRequest).subscribe({
@@ -158,7 +213,7 @@ export class LoginRegisterComponent implements OnInit {
             icon: 'success',
             title: '¡Inicio de sesión exitoso!',
             text: 'Bienvenido a Neuroplay.',
-            confirmButtonText: 'Aceptar'
+            confirmButtonText: 'Aceptar',
           }).then(() => {
             this.router.navigateByUrl('/paciente');
             this.loginForm.reset();
@@ -172,9 +227,9 @@ export class LoginRegisterComponent implements OnInit {
             icon: 'error',
             title: '¡Error!',
             text: this.loginError,
-            confirmButtonText: 'Aceptar'
+            confirmButtonText: 'Aceptar',
           });
-        }
+        },
       });
     } else {
       // Si el formulario no es válido, mostramos un mensaje de advertencia
@@ -183,9 +238,20 @@ export class LoginRegisterComponent implements OnInit {
         icon: 'warning',
         title: '¡Campos inválidos!',
         text: 'Por favor, completa todos los campos correctamente.',
-        confirmButtonText: 'Aceptar'
+        confirmButtonText: 'Aceptar',
       });
     }
   }
+
+  // En tu componente
+  showPassword: boolean = false;
+  showPasswordLogin: boolean = false;
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
+  togglePasswordLoginVisibility(): void {
+    this.showPasswordLogin = !this.showPasswordLogin;
+  }
+}

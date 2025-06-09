@@ -8,18 +8,28 @@ import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
+  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
+  currentUserData: BehaviorSubject<String> = new BehaviorSubject<String>('');
+  currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<
+    number | null
+  >(null);
+  currentUserRole: BehaviorSubject<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
 
-  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  currentUserData: BehaviorSubject<String> = new BehaviorSubject<String>("");
-  currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
-  currentUserRole: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     if (this.isBrowser()) {
-      const token = sessionStorage.getItem("token");
+      const token = sessionStorage.getItem('token');
       if (token) {
         this.initializeUser(token);
       }
@@ -33,34 +43,27 @@ export class LoginService {
   private initializeUser(token: string): void {
     this.currentUserLoginOn.next(true);
     const decodedToken = this.jwtHelper.decodeToken(token);
-    console.log(decodedToken)
+    console.log(decodedToken);
     this.currentUserData.next(token);
     this.currentUserId.next(decodedToken.userId);
     this.currentUserRole.next(decodedToken.rol);
   }
 
   login(credentials: LoginRequest) {
-    return this.http.post<any>(`${environment.urlHost}auth/login`, credentials).pipe(
-      tap((userData) => {
-        sessionStorage.setItem("token", userData.token);
-        this.initializeUser(userData.token);
-      }),
-      map((userData) => userData.token),
-      catchError(this.handleError)
-    );
-  }
-
-  getUserRole(): string | null {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken.rol;
-    }
-    return null;
+    return this.http
+      .post<any>(`${environment.urlHost}auth/login`, credentials)
+      .pipe(
+        tap((userData) => {
+          sessionStorage.setItem('token', userData.token);
+          this.initializeUser(userData.token);
+        }),
+        map((userData) => userData.token),
+        catchError(this.handleError)
+      );
   }
 
   logOut(): void {
-    sessionStorage.removeItem("token");
+    sessionStorage.removeItem('token');
     this.currentUserLoginOn.next(false);
     this.currentUserId.next(null);
     this.currentUserRole.next(null);
@@ -85,6 +88,6 @@ export class LoginService {
   }
 
   get userToken() {
-    return this.currentUserData.value
+    return this.currentUserData.value;
   }
 }
