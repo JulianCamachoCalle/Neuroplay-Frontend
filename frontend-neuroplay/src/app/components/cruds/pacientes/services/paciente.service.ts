@@ -31,7 +31,7 @@ export class PacienteService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getPacienteByUsuario(usuarioId: number): Observable<any> {
+  getPacienteByUsuario(usuarioId: number | null): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/usuario/${usuarioId}`);
   }
 }

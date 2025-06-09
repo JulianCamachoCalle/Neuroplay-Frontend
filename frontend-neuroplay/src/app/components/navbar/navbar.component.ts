@@ -1,4 +1,13 @@
-import { Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild,
+} from '@angular/core';
 import { LoginService } from '../../services/auth/login.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
@@ -10,7 +19,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
@@ -22,7 +31,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   @ViewChild('menuContent') menuContent!: ElementRef;
   @ViewChild('menuButton') menuButton!: ElementRef;
 
-   toggleMenu() {
+  toggleMenu() {
     this.menuAbierto = !this.menuAbierto;
   }
 
@@ -53,11 +62,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
-
   ngOnInit(): void {
     // Suscripción al estado de login
     this.subscriptions.add(
-      this.loginService.userLoginOn.subscribe(loginOn => {
+      this.loginService.userLoginOn.subscribe((loginOn) => {
         this.isLoggedIn = loginOn;
         if (loginOn && this.isBrowser) {
           this.loadUserData();
@@ -76,16 +84,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   private checkCurrentToken(): void {
-  const token = this.loginService.userToken;
-  if (token && typeof token === 'string' && !this.jwtHelper.isTokenExpired(token)) {
-    const decodedToken = this.jwtHelper.decodeToken(token);
-    this.updateUserData(decodedToken);
+    const token = this.loginService.userToken;
+    if (
+      token &&
+      typeof token === 'string' &&
+      !this.jwtHelper.isTokenExpired(token)
+    ) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      this.updateUserData(decodedToken);
+    }
   }
-}
 
   private loadUserData(): void {
     const token = this.loginService.userToken;
-    if (token && typeof token === 'string' && !this.jwtHelper.isTokenExpired(token)) {
+    if (
+      token &&
+      typeof token === 'string' &&
+      !this.jwtHelper.isTokenExpired(token)
+    ) {
       const decodedToken = this.jwtHelper.decodeToken(token);
       this.updateUserData(decodedToken);
     }
@@ -106,7 +122,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   getInitials(name: string): string {
     if (!name) return 'U';
     const parts = name.split(' ');
-    return parts.length > 1 
+    return parts.length > 1
       ? `${parts[0][0]}${parts[1][0]}`.toUpperCase()
       : `${parts[0][0]}`.toUpperCase();
   }

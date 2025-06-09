@@ -157,14 +157,10 @@
                   Terapeuta asignado
                 </p>
                 <p class="text-gray-900">
-                  <a
-                    *ngIf="paciente.terapeuta"
-                    [routerLink]="['/terapeutas', paciente.terapeuta.id]"
-                    class="text-blue-600 hover:text-blue-800 hover:underline transition-colors"
-                  >
+                  <a *ngIf="paciente" class="text-blue-600 hover:text-blue-800">
                     {{ paciente.terapeutaNombre }}
                   </a>
-                  <span *ngIf="!paciente.terapeuta" class="text-gray-500"
+                  <span *ngIf="!paciente" class="text-gray-500"
                     >No asignado</span
                   >
                 </p>

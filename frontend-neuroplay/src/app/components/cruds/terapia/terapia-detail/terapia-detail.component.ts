@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TerapiaService } from '../services/terapia.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { EjercicioService } from '../../ejercicio/services/ejercicio.service';
 
 @Component({
   selector: 'app-terapia-detail',
@@ -13,9 +14,11 @@ import { CommonModule } from '@angular/common';
 export class TerapiaDetailComponent implements OnInit {
   terapia: any;
   loading = true;
+  ejercicios: any[] = [];
 
   constructor(
     private terapiaService: TerapiaService,
+    private ejercicioService: EjercicioService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -23,6 +26,7 @@ export class TerapiaDetailComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
     this.loadTerapia(id);
+    this.loadEjercicios(id);
   }
 
   loadTerapia(id: number): void {
@@ -35,6 +39,15 @@ export class TerapiaDetailComponent implements OnInit {
       error: () => {
         this.router.navigate(['/terapias']);
       },
+    });
+  }
+
+  loadEjercicios(id: number): void {
+    this.ejercicioService.getEjerciciosByTerapia(id).subscribe({
+      next: (data) => {
+        this.ejercicios = data;
+      },
+      error: (err) => console.error(err),
     });
   }
 
