@@ -154,7 +154,7 @@
                   Fecha de Nacimiento
                 </p>
                 <p class="text-sm text-gray-900">
-                  {{ usuario.fechaNacimiento | date : "dd/MM/yyyy" }}
+                  {{ usuario.fechaNacimiento | date : "dd/MM/yyyy" : "UTC" }}
                 </p>
               </div>
             </div>

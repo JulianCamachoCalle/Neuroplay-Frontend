@@ -71,7 +71,20 @@ export class PacienteComponent implements OnInit {
 
     // Terapias del paciente
     this.terapiaService.getByPaciente(pacienteId).subscribe((terapias) => {
-      this.terapias = terapias.slice(0, 2); // Mostrar solo las 2 primeras
+      this.terapias = terapias;
+      this.ejerciciosRecomendados = []; // Limpiar antes de cargar
+      if (terapias && terapias.length > 0) {
+        terapias.forEach((terapia: any) => {
+          const idTerapia = terapia.id;
+          // Cargar ejercicios recomendados por terapia
+          this.ejercicioService
+            .getEjerciciosByTerapia(idTerapia)
+            .subscribe((ejercicios) => {
+              this.ejerciciosRecomendados =
+                this.ejerciciosRecomendados.concat(ejercicios);
+            });
+        });
+      }
     });
 
     // Progreso del paciente
@@ -106,16 +119,14 @@ export class PacienteComponent implements OnInit {
             .slice(0, 3);
         }
       });
-
-    // Ejercicios recomendados
-    this.ejercicioService.getEjercicios().subscribe((ejercicios) => {
-      this.ejerciciosRecomendados = ejercicios
-        .sort(() => 0.5 - Math.random()) // Orden aleatorio
-        .slice(0, 3); // Mostrar solo 3
-    });
   }
 
   inicializarGraficoProgreso(progresos: any[]): void {
+    // Destruir gráfico anterior si existe
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
     // Ordenar progresos por fecha
     const progresosOrdenados = [...progresos].sort(
       (a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime()
@@ -165,9 +176,9 @@ export class PacienteComponent implements OnInit {
         scales: {
           y: {
             beginAtZero: true,
-            max: 10,
+            max: 100,
             ticks: {
-              stepSize: 2,
+              stepSize: 10,
             },
           },
         },
