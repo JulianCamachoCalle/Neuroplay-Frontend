@@ -32,7 +32,7 @@ export class EjercicioFormComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.ejercicioForm = this.fb.group({
-      terapiaId: [{ value: '', disabled: this.isEdit }, Validators.required],
+      terapiaId: ['', Validators.required],
       terapiaNombre: [{ value: '', disabled: true }, Validators.required],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -40,8 +40,8 @@ export class EjercicioFormComponent implements OnInit {
       repeticiones: [0, [Validators.required, Validators.min(1)]],
       duracionMinutos: [0, [Validators.required, Validators.min(1)]],
       nivelDificultad: ['', Validators.required],
-      videoUrl: [''],
-      imagenUrl: [''],
+      videoUrl: [''], // <-- Siempre habilitados
+      imagenUrl: [''], // <-- Siempre habilitados
     });
   }
 
@@ -105,20 +105,13 @@ export class EjercicioFormComponent implements OnInit {
         this.ejercicioForm.patchValue({
           ...ejercicio,
           terapiaId: ejercicio.terapiaId || '',
+          videoUrl: ejercicio.videoUrl || '',
+          imagenUrl: ejercicio.imagenUrl || '',
         });
 
+        // Solo deshabilita terapiaId
         if (this.isEdit) {
           this.ejercicioForm.get('terapiaId')?.disable();
-        }
-
-        if (ejercicio.terapiaId) {
-          this.terapiaService
-            .getTerapia(ejercicio.terapiaId)
-            .subscribe((terapia) => {
-              this.ejercicioForm.patchValue({
-                terapiaNombre: terapia?.nombre || 'Terapia no encontrada',
-              });
-            });
         }
       },
       error: (err) => console.error(err),
