@@ -215,7 +215,7 @@ export class LoginRegisterComponent implements OnInit {
             text: 'Bienvenido a Neuroplay.',
             confirmButtonText: 'Aceptar',
           }).then(() => {
-            this.router.navigateByUrl('/paciente');
+            this.checkTokenAndRedirect();
             this.loginForm.reset();
           });
         },
