@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   nombre: string = '';
   userRole: string | null = null;
   userId: number | null = null;
+  userLowerCase: string = '';
   menuAbierto = false;
 
   @ViewChild('menuContent') menuContent!: ElementRef;
@@ -111,6 +112,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.nombre = decodedToken.nombre || null;
     this.userId = decodedToken.id || null;
     this.userRole = decodedToken.rol || null;
+    this.userLowerCase = this.userRole ? this.userRole.toLowerCase() : '';
   }
 
   logout(): void {
