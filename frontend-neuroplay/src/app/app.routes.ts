@@ -26,6 +26,7 @@ import { ProgresoFormComponent } from './components/cruds/progreso/progreso-form
 import { SesionListComponent } from './components/cruds/sesion/sesion-list/sesion-list.component';
 import { SesionFormComponent } from './components/cruds/sesion/sesion-form/sesion-form.component';
 import { SesionDetailComponent } from './components/cruds/sesion/sesion-detail/sesion-detail.component';
+import { TerapeutaComponent } from './components/pages/terapeuta/terapeuta.component';
 
 export const routes: Routes = [
   { path: 'usuarios', component: UsuarioComponent },
@@ -38,6 +39,7 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   // pages
   { path: 'paciente', component: PacienteComponent },
+  { path: 'terapeuta', component: TerapeutaComponent },
   {
     path: 'perfil/:id',
     component: UserProfileComponent,
