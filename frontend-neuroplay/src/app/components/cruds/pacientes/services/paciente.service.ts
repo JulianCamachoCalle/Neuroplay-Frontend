@@ -34,4 +34,8 @@ export class PacienteService {
   getPacienteByUsuario(usuarioId: number | null): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/usuario/${usuarioId}`);
   }
+
+  getPacientesByTerapeuta(terapeutaId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/terapeuta/${terapeutaId}`);
+  }
 }

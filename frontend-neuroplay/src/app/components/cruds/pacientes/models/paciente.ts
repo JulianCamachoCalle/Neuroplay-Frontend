@@ -7,7 +7,7 @@ export interface Paciente {
   tipoAcv: string;
   antecedentes?: string;
   medicacionActual?: string;
-  progresoTotal?: number;
+  progresoTotal: number;
   ejerciciosCompletados?: number;
   diasConsecutivos?: number;
   usuario?: {
