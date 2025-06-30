@@ -42,7 +42,7 @@ export const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [ProfileGuard],
   },
-  { path: 'proceso-terapia/:id', component: ProcesoTerapiaComponent, canActivate: [ProfileGuard] },
+  { path: 'proceso-terapia/:id', component: ProcesoTerapiaComponent },
   { path: 'pacientes', component: PacienteListComponent },
   { path: 'pacientes/nueva', component: PacienteFormComponent },
   { path: 'pacientes/:id', component: PacienteDetailComponent },

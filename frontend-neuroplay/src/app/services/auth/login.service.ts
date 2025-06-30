@@ -1,26 +1,21 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
 import { LoginRequest } from './loginRequest';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../environments/enviroment.development';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-
+import { Usuario } from '../../models/usuario.model';
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-  currentUserData: BehaviorSubject<String> = new BehaviorSubject<String>('');
-  currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<
-    number | null
-  >(null);
-  currentUserRole: BehaviorSubject<string | null> = new BehaviorSubject<
-    string | null
-  >(null);
+  currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentUserData: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  currentUserId: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null);
+  currentUserRole: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  currentUserInfo: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
 
   constructor(
     private http: HttpClient,
@@ -42,11 +37,20 @@ export class LoginService {
 
   private initializeUser(token: string): void {
     this.currentUserLoginOn.next(true);
-    const decodedToken = this.jwtHelper.decodeToken(token);
-    console.log(decodedToken);
     this.currentUserData.next(token);
+
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    const userInfo: Usuario = {
+      id: decodedToken.id,
+      rol: decodedToken.rol,
+      nombre: decodedToken.nombre,
+      apellido: decodedToken.apellido,
+      username: decodedToken.username
+    };
+
     this.currentUserId.next(decodedToken.userId);
     this.currentUserRole.next(decodedToken.rol);
+    this.currentUserInfo.next(userInfo);
   }
 
   login(credentials: LoginRequest) {
@@ -65,9 +69,28 @@ export class LoginService {
   logOut(): void {
     sessionStorage.removeItem('token');
     this.currentUserLoginOn.next(false);
+    this.currentUserData.next('');
     this.currentUserId.next(null);
     this.currentUserRole.next(null);
+    this.currentUserInfo.next(null);
     this.router.navigate(['/login']);
+  }
+
+  // Nuevos métodos para integración con ProcesoTerapiaComponent
+  getUsuarioActual(): Observable<Usuario | null> {
+    return this.currentUserInfo.asObservable();
+  }
+
+  getUsuarioId(): number | null {
+    return this.currentUserId.value;
+  }
+
+  isAuthenticated(): boolean {
+    return this.currentUserLoginOn.value;
+  }
+
+  hasRole(role: string): boolean {
+    return this.currentUserRole.value === role;
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -89,5 +112,9 @@ export class LoginService {
 
   get userToken() {
     return this.currentUserData.value;
+  }
+
+  get userRole() {
+    return this.currentUserRole.asObservable();
   }
 }
