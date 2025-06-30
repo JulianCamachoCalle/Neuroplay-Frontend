@@ -1,0 +1,113 @@
+<app-navbar></app-navbar>
+<div class="min-h-screen text-white p-4">
+    <!-- Header minimalista -->
+    <div class="flex justify-between items-center mb-4">
+        <div>
+            <h1 class="text-xl font-bold">{{terapia?.nombre}}</h1>
+            <p class="text-sm text-gray-500">Ejercicio {{ejercicioIndex + 1}}/{{ejercicios.length}}</p>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="text-right">
+                <p class="text-sm text-gray-500">Progreso</p>
+                <p class="font-bold">{{progresoSesion.toFixed(0)}}%</p>
+            </div>
+            <button (click)="salirDeTerapia()" class="bg-gray-500 hover:bg-gray-600 px-3 py-1 rounded-lg text-sm">
+                Salir
+            </button>
+        </div>
+    </div>
+
+    <!-- Barra de progreso sutil -->
+    <div class="w-full bg-gray-500 rounded-full h-2 mb-6">
+        <div class="bg-blue-500 h-2 rounded-full" [style.width.%]="progresoSesion"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div *ngIf="!terapiaCompletada && ejercicioActual" class="flex flex-col lg:flex-row gap-6">
+        <!-- Video grande (75% pantalla) -->
+        <div class="lg:w-3/4">
+            <div *ngIf="videoUrl" class="bg-black rounded-xl overflow-hidden">
+                <iframe [src]="videoUrl" class="w-full h-[60vh] lg:h-[70vh]" frameborder="0" allowfullscreen
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                </iframe>
+            </div>
+            <div *ngIf="!videoUrl"
+                class="flex items-center justify-center h-[60vh] lg:h-[70vh] bg-gray-800 text-white rounded-xl">
+                <p>Video no disponible</p>
+            </div>
+        </div>
+
+        <!-- Panel de control derecho (25% pantalla) -->
+        <div class="lg:w-1/4 space-y-4">
+            <!-- Info ejercicio -->
+            <div class="bg-gray-300 p-4 rounded-lg">
+                <h2 class="text-lg text-gray-800 font-bold mb-2">{{ejercicioActual.nombre}}</h2>
+                <p class="text-sm text-gray-800 mb-3">{{ejercicioActual.descripcion}}</p>
+                <span class="inline-block bg-blue-900 text-blue-200 px-2 py-1 rounded text-xs">
+                    {{ejercicioActual.nivelDificultad}}
+                </span>
+            </div>
+
+            <!-- Contadores -->
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Repeticiones -->
+                <div *ngIf="ejercicioActual.repeticiones > 0" class="bg-gray-300 p-4 rounded-lg text-center">
+                    <p class="text-sm text-gray-500">Repeticiones</p>
+                    <p class="text-3xl font-bold">
+                        <span class="text-blue-400">{{repeticionesCompletadas}}</span>
+                        <span class="text-gray-500 text-xl">/{{ejercicioActual.repeticiones}}</span>
+                    </p>
+                    <button (click)="completarRepeticion()"
+                        class="mt-2 w-full bg-blue-600 hover:bg-blue-500 py-2 rounded-lg transition">
+                        +1 Rep
+                    </button>
+                </div>
+
+                <!-- Temporizador -->
+                <div *ngIf="ejercicioActual.duracionMinutos > 0" class="bg-gray-300 p-4 rounded-lg text-center">
+                    <p class="text-sm text-gray-500">Tiempo</p>
+                    <p class="text-3xl font-bold text-green-600">
+                        {{formatearTiempo(tiempoRestante)}}
+                    </p>
+                    <button (click)="siguienteEjercicio()"
+                        class="mt-2 w-full bg-gray-600 hover:bg-gray-500 py-2 rounded-lg transition">
+                        Saltar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Botón siguiente grande -->
+            <button (click)="siguienteEjercicio()"
+                class="w-full bg-purple-600 hover:bg-purple-500 py-3 rounded-lg font-bold transition">
+                {{ejercicioIndex < ejercicios.length - 1 ? 'Siguiente Ejercicio' : 'Finalizar Terapia' }} </button>
+        </div>
+    </div>
+
+    <!-- Pantalla de completado -->
+    <div *ngIf="terapiaCompletada" class="fixed inset-0 bg-opacity-90 flex items-center justify-center p-4">
+        <div class="bg-gray-300 rounded-xl p-8 max-w-md text-center">
+            <div class="text-green-500 text-6xl mb-4">✓</div>
+            <h2 class="text-2xl text-gray-800 font-bold mb-2">¡Terapia Completada!</h2>
+            <p class="text-gray-300 mb-6">Has ganado {{ejercicios.length}} puntos de experiencia</p>
+            <div class="bg-gray-400 p-4 rounded-lg mb-6">
+                <p class="text-sm text-gray-900">Progreso total</p>
+                <div class="w-full bg-gray-600 rounded-full h-3 mt-2">
+                    <div class="bg-blue-500 h-3 rounded-full" [style.width.%]="progresoTotal"></div>
+                </div>
+                <p class="text-lg font-bold mt-2">{{progresoTotal.toFixed(0)}}%</p>
+            </div>
+            <button (click)="finalizarTerapia()"
+                class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-lg font-bold transition">
+                Volver al Panel
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="!terapia || ejercicios.length === 0" class="fixed inset-0 flex items-center justify-center">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-blue-500 mx-auto mb-4"></div>
+            <p class="text-gray-500">Cargando terapia...</p>
+        </div>
+    </div>
+</div>

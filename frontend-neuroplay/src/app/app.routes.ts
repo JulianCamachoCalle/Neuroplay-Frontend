@@ -27,15 +27,12 @@ import { SesionListComponent } from './components/cruds/sesion/sesion-list/sesio
 import { SesionFormComponent } from './components/cruds/sesion/sesion-form/sesion-form.component';
 import { SesionDetailComponent } from './components/cruds/sesion/sesion-detail/sesion-detail.component';
 import { TerapeutaComponent } from './components/pages/terapeuta/terapeuta.component';
+import { ProcesoTerapiaComponent } from './components/pages/proceso-terapia/proceso-terapia.component';
 
 export const routes: Routes = [
-  { path: 'usuarios', component: UsuarioComponent },
-  { path: 'new-usuario', component: UsuarioFormComponent },
-  { path: ':id/edit', component: UsuarioFormComponent },
   { path: 'login', component: LoginRegisterComponent },
   { path: '', component: LoginRegisterComponent },
   { path: 'admin/email', component: SendEmailComponent },
-  // { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   // pages
   { path: 'paciente', component: PacienteComponent },
@@ -45,6 +42,7 @@ export const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [ProfileGuard],
   },
+  { path: 'proceso-terapia/:id', component: ProcesoTerapiaComponent },
   { path: 'pacientes', component: PacienteListComponent },
   { path: 'pacientes/nueva', component: PacienteFormComponent },
   { path: 'pacientes/:id', component: PacienteDetailComponent },
@@ -69,4 +67,7 @@ export const routes: Routes = [
   { path: 'sesiones/nueva', component: SesionFormComponent },
   { path: 'sesiones/:id', component: SesionDetailComponent },
   { path: 'sesiones/:id/editar', component: SesionFormComponent },
+  { path: 'usuarios', component: UsuarioComponent },
+  { path: 'new-usuario', component: UsuarioFormComponent },
+  { path: ':id/edit', component: UsuarioFormComponent },
 ];

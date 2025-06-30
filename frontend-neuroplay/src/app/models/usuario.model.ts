@@ -4,11 +4,11 @@ export interface Usuario {
     nombre: String;
     apellido: String;
     username: String;
-    password: String;
-    fechaNacimiento: String;
-    genero: String;
-    telefono: String;
-    fechaRegistro: String;
-    avatar: String;
-    estado: String
+    password?: String;
+    fechaNacimiento?: String;
+    genero?: String;
+    telefono?: String;
+    fechaRegistro?: String;
+    avatar?: String;
+    estado?: String
 }
