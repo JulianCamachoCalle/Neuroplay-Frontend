@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/enviroment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Terapia } from '../models/terapia';
 
 @Injectable({
   providedIn: 'root',
@@ -11,19 +12,19 @@ export class TerapiaService {
 
   constructor(private http: HttpClient) {}
 
-  getTerapias(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getTerapias(): Observable<Terapia[]> {
+    return this.http.get<Terapia[]>(this.apiUrl);
   }
 
-  getTerapia(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getTerapia(id: number): Observable<Terapia> {
+    return this.http.get<Terapia>(`${this.apiUrl}/${id}`);
   }
 
-  createTerapia(terapia: any): Observable<any> {
+  createTerapia(terapia: Terapia): Observable<any> {
     return this.http.post(this.apiUrl, terapia);
   }
 
-  updateTerapia(id: number, terapia: any): Observable<any> {
+  updateTerapia(id: number, terapia: Terapia): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, terapia);
   }
 

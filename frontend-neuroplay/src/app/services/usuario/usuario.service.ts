@@ -15,7 +15,7 @@ export class UsuarioService {
   constructor(private http: HttpClient) { }
 
   // Obtener todos los usuarios
-  listAll() {
+  listAll(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.urlApiUsuario);
   }
 
@@ -32,12 +32,12 @@ export class UsuarioService {
   }
 
   // Actualizar un usuario
-  update(id: number, usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.urlApiUsuario}/${id}`, usuario).pipe(
+  update(id: number, usuario: Usuario): Observable<any> {
+    return this.http.put(`${this.urlApiUsuario}/${id}`, usuario).pipe(
       catchError(this.handleError));
   }
 
-  registerUser(userData: any): Observable<any> {
+  registerUser(userData: Usuario): Observable<any> {
     return this.http.post(environment.urlHost + "auth/register", userData).pipe(
       catchError(this.handleError));
   }

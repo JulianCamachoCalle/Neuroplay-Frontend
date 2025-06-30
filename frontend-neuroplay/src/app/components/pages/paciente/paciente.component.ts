@@ -137,7 +137,6 @@ export class PacienteComponent implements OnInit {
     );
     const fuerza = progresosOrdenados.map((p) => p.fuerza);
     const movilidad = progresosOrdenados.map((p) => p.movilidad);
-    const detalle = progresosOrdenados.map((p) => p.detalle);
 
     this.chart = new Chart(this.progressChartRef.nativeElement, {
       type: 'line',
@@ -157,14 +156,6 @@ export class PacienteComponent implements OnInit {
             data: movilidad,
             borderColor: '#10b981',
             backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            tension: 0.3,
-            fill: true,
-          },
-          {
-            label: 'Coordinación',
-            data: detalle,
-            borderColor: '#8b5cf6',
-            backgroundColor: 'rgba(139, 92, 246, 0.1)',
             tension: 0.3,
             fill: true,
           },
