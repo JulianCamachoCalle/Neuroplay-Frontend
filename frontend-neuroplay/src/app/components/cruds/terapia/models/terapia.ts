@@ -6,7 +6,7 @@ export interface Terapia {
   descripcion: string;
   fechaInicio: Date;
   fechaFin?: Date;
-  estado: 'ACTIVA' | 'COMPLETADA' | 'PAUSADA';
+  estado: string;
   paciente?: {
     id: number;
     nombre: string;

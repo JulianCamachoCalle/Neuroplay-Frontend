@@ -24,7 +24,7 @@ export class TerapiaFormComponent implements OnInit {
   isEdit = false;
   pacientes: any[] = [];
   terapeutas: any[] = [];
-  estados = ['ACTIVA', 'PAUSADA', 'COMPLETADA'];
+  estados = ['ACTIVA', 'COMPLETADA', 'PAUSADA'];
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +41,7 @@ export class TerapiaFormComponent implements OnInit {
       terapeutaId: ['', Validators.required],
       fechaInicio: ['', Validators.required],
       fechaFin: [''],
-      estado: ['ACTIVA'],
+      estado: [''],
     });
   }
 
