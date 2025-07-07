@@ -2,19 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EmailService } from '../../services/email/email.service';
+import { CommonModule } from '@angular/common';
+import { DashboardComponent } from "../dashboard/dashboard.component";
+import { Usuario } from '../../models/usuario.model';
+import { UsuarioService } from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-send-email',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, DashboardComponent],
   templateUrl: './send-email.component.html',
   styleUrl: './send-email.component.css'
 })
-export class SendEmailComponent implements OnInit{
+export class SendEmailComponent implements OnInit {
   emailForm!: FormGroup;
   message: string = '';
+  usuarios: Usuario[] = [];
+  loadingUsuarios: boolean = true;
 
-  constructor(private formBuilder: FormBuilder, private emailService: EmailService) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private emailService: EmailService,
+    private usuarioService: UsuarioService
+  ) { }
 
   ngOnInit(): void {
     this.emailForm = this.formBuilder.group({
@@ -22,6 +32,22 @@ export class SendEmailComponent implements OnInit{
       proposito: [''],
       mensaje: [''],
       archivo: [null],
+    });
+
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    this.loadingUsuarios = true;
+    this.usuarioService.listAll().subscribe({
+      next: (usuarios: Usuario[]) => {
+        this.usuarios = usuarios;
+        this.loadingUsuarios = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar los usuarios', error);
+        this.loadingUsuarios = false;
+      }
     });
   }
 
@@ -53,5 +79,7 @@ export class SendEmailComponent implements OnInit{
         });
       }
     );
+
+    console.log('Formulario enviado:', emailDto);
   }
 }

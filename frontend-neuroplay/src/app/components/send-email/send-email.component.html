@@ -1,57 +1,54 @@
-<!-- email.component.html -->
-<!-- <div class="container mx-auto mt-4 px-4">
-    <h1 class="text-2xl font-bold mb-4">Send Email</h1>
-    <button type="button" 
-            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition duration-200 mb-3"
-            (click)="openModal()">
-        New Email
-    </button>
-    <p class="text-gray-700">{{ message }}</p>
-</div> -->
+<div class="flex min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <app-dashboard class="fixed top-0 left-0 h-screen w-72 z-30"></app-dashboard>
+    <div class="container mx-auto mt-8 px-4 max-w-2xl">
+        <h1 class="text-2xl text-blue-600 font-bold mb-6">Enviar Email</h1>
 
-<!-- Modal for email form -->
-<!-- <div *ngIf="isModalOpen" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl">
-        <div class="border-b px-6 py-4">
-            <h5 class="text-xl font-semibold">New Email</h5>
-        </div>
-        <div class="p-6">
+        <div class="bg-white shadow rounded-lg p-6">
             <form [formGroup]="emailForm" (ngSubmit)="onSubmit()" class="space-y-4">
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">Para</label>
-                    <input formControlName="receptor" type="text" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                           required>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Para</label>
+                    <div *ngIf="loadingUsuarios" class="text-gray-500 text-sm">
+                        Cargando destinatarios...
+                    </div>
+
+                    <select formControlName="receptor"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        required *ngIf="!loadingUsuarios">
+                        <option value="" disabled selected>Selecciona un destinatario</option>
+                        <option *ngFor="let usuario of usuarios" [value]="usuario.username">
+                            {{ usuario.nombre }} {{ usuario.apellido }} ({{ usuario.username }})
+                        </option>
+                    </select>
                 </div>
+
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">Asunto</label>
-                    <input formControlName="proposito" type="text" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                           required>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Asunto</label>
+                    <input formControlName="proposito" type="text"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Asunto del email" required>
                 </div>
+
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">Mensaje</label>
-                    <textarea formControlName="mensaje" 
-                              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                              rows="6" required></textarea>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                    <textarea formControlName="mensaje"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        rows="6" placeholder="Escribe tu mensaje aquí..." required></textarea>
                 </div>
+
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1">Archivo</label>
-                    <input type="file" (change)="onFileSelected($event)" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Archivo adjunto</label>
+                    <input type="file" (change)="onFileSelected($event)"
+                        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                 </div>
-                <div class="flex justify-end space-x-3 pt-4">
-                    <button type="button" 
-                            class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-200"
-                            (click)="closeModal()">
-                        Cancel
-                    </button>
-                    <button type="submit" 
-                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
-                        Send
+
+                <div class="flex items-center justify-between pt-4">
+                    <p class="text-gray-600">{{ message }}</p>
+                    <button type="submit"
+                        class="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        Enviar Email
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</div> -->
+</div>

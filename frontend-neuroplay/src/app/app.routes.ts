@@ -70,4 +70,5 @@ export const routes: Routes = [
   { path: 'usuarios', component: UsuarioComponent },
   { path: 'new-usuario', component: UsuarioFormComponent },
   { path: ':id/edit', component: UsuarioFormComponent },
+  { path: 'emails', component: SendEmailComponent }
 ];
